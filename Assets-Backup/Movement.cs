@@ -37,7 +37,7 @@ public class Movement : MonoBehaviour
             RaycastHit hitInfo; 
 
             //if ray collides with navmesh...
-            if (Physics.Raycast (clickRay, out hitInfo, 150, navigable))
+            if (Physics.Raycast (clickRay, out hitInfo, 100, navigable))
             {
                 //...tell player to move to that point
                 playerAgent.SetDestination(hitInfo.point);
