@@ -6,42 +6,50 @@ public class worldGen : MonoBehaviour
 {
     public GameObject bigRock;
     public GameObject smallRock;
-    private int xLim = -79;
-    private int zLim = 79;
+    //private bool smallFlag = false;
+    //private bool bigFlag = false;
+    private int xLim = -80;
+    private int zLim = 80;
     private Quaternion rotation = Quaternion.identity;
 
-    // Start is called before the first frame update
     void Start()
     {
         placeRocks();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void placeRocks()
     {
-        for (int z = zLim; z > 21; z-=2)
+        for (int z = zLim; z > -zLim - 1; z-=2)
         {
-            for (int x = xLim; x < -xLim + 1; x++)
+            for (int x = xLim; x < -xLim; x++)
             {
                 int roll = Random.Range(1, 100);
-            //if (roll <= 5)
-            //{
-            //    Vector3 spawnPos = new Vector3(x, 1, zLim - 1);
-            //    //yield return new WaitForSeconds(1);
-            //    Instantiate(bigRock, spawnPos, rotation);
-            //    x+=2;
-            //}
-                if (roll >= 35)
+                if (roll <= 5)
+                {
+                    Vector3 spawnPos = new Vector3(x, 1, z - 1);
+                    if (!Physics.CheckSphere(spawnPos, 0.5f))
+                    {
+                        Instantiate(bigRock, spawnPos, rotation);
+                        //bigFlag = true;
+                        //smallFlag = false;
+                        x += 2;
+                    }
+                }
+                else if (roll <= 50)
                 {
                     Vector3 spawnPos = new Vector3(x, 1, z);
-                    //yield return new WaitForSeconds(1);
-                    Instantiate(smallRock, spawnPos, rotation);
-                    x++;
+                    if (!Physics.CheckSphere(spawnPos, 0.5f))
+                    {
+                        Instantiate(smallRock, spawnPos, rotation);
+                        //bigFlag = false;
+                        //smallFlag = true;
+                        x++;
+                    }
+                }
+                else
+                {
+                    //bigFlag = false;
+                    //smallFlag = false;
                 }
             }
         }
