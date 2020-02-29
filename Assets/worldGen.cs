@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class worldGen : MonoBehaviour
 {
-    public GameObject rocks;
+    public GameObject bigRock;
+    public GameObject smallRock;
     private int xLim = -79;
     private int zLim = 79;
     private Quaternion rotation = Quaternion.identity;
@@ -23,11 +24,26 @@ public class worldGen : MonoBehaviour
 
     private void placeRocks()
     {
-        for (int x = xLim; x < -xLim+1; x+=2)
+        for (int z = zLim; z > 21; z-=2)
         {
-            Vector3 spawnPos = new Vector3(x, 1, zLim);
-            //yield return new WaitForSeconds(1);
-            Instantiate(rocks, spawnPos, rotation);
+            for (int x = xLim; x < -xLim + 1; x++)
+            {
+                int roll = Random.Range(1, 100);
+            //if (roll <= 5)
+            //{
+            //    Vector3 spawnPos = new Vector3(x, 1, zLim - 1);
+            //    //yield return new WaitForSeconds(1);
+            //    Instantiate(bigRock, spawnPos, rotation);
+            //    x+=2;
+            //}
+                if (roll >= 35)
+                {
+                    Vector3 spawnPos = new Vector3(x, 1, z);
+                    //yield return new WaitForSeconds(1);
+                    Instantiate(smallRock, spawnPos, rotation);
+                    x++;
+                }
+            }
         }
     }
 }

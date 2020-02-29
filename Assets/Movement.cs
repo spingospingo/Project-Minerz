@@ -6,12 +6,11 @@ using UnityEngine.AI;
 public class Movement : MonoBehaviour
 {
     public LayerMask navigable; //mesh that can be clicked on for movement
-    public Camera overheadCam;
-    public Camera playerCam;
+    //public Camera overheadCam;
 
     private NavMeshAgent playerAgent;
     private Ray clickRay;
-    private Camera cam;
+    public Camera cam;
 
     void Start()
     {
@@ -22,14 +21,14 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
-            if(overheadCam.enabled) //seems to run twice per click?
-            {
-                cam = overheadCam;
-            }
-            else if (playerCam.enabled)
-            {
-                cam = playerCam;
-            }
+            //if(overheadCam.enabled) //seems to run twice per click?
+            //{
+            //    cam = overheadCam;
+            //}
+            //else if (playerCam.enabled)
+            //{
+            //    cam = playerCam;
+            //}
 
             //shoots ray from camera towards mouseclick
             clickRay = cam.ScreenPointToRay(Input.mousePosition);

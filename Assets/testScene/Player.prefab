@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1817656819029409175}
   - component: {fileID: 1817656819029409174}
   - component: {fileID: 1817656819029409173}
-  - component: {fileID: 1817656819029409172}
+  - component: {fileID: 5422227712177507504}
   - component: {fileID: 1817656819029409171}
   - component: {fileID: 1817656819029409256}
   - component: {fileID: 1817656819029409257}
@@ -58,6 +58,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -69,6 +70,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -81,8 +83,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &1817656819029409172
-BoxCollider:
+--- !u!136 &5422227712177507504
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -91,8 +93,9 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Radius: 0.3
+  m_Height: 1
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &1817656819029409171
 Rigidbody:
@@ -125,8 +128,7 @@ MonoBehaviour:
   navigable:
     serializedVersion: 2
     m_Bits: 256
-  overheadCam: {fileID: 0}
-  playerCam: {fileID: 0}
+  cam: {fileID: 0}
 --- !u!195 &1817656819029409257
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -136,7 +138,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1817656819029409170}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.73
+  m_Radius: 0.5
   m_Speed: 7
   m_Acceleration: 60
   avoidancePriority: 50
