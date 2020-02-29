@@ -19,5 +19,3 @@ In Mineralz Evolution, every 5 nights is a "boss night." A boss will spawn inste
 should be considered a milestone in a single match of the game. As such, boss rounds are difficult. They "weed out" weak bases that aren't
 as strong as they could be. This rewards players for playing well. A match ends after night 50, which is considered the final boss night. 
 While this is something that we could emulate, this mechanic can be changed. 
-
-spingospingo saxodiddle
