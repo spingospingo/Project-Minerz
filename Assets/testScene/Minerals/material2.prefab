@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8201543817924514830}
   - component: {fileID: 5275596949646755866}
   m_Layer: 0
-  m_Name: rockNew
+  m_Name: Ceramics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 1
@@ -60,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9716f6c442a6ded47b3a6e5fcae5943e, type: 2}
+  - {fileID: 2100000, guid: d42638abc2327e34d83792134040c770, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

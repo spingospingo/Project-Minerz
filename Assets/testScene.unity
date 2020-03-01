@@ -497,7 +497,7 @@ GameObject:
   - component: {fileID: 1137786356}
   - component: {fileID: 1137786355}
   m_Layer: 0
-  m_Name: rockSpawner
+  m_Name: setSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -515,11 +515,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5f996895de62a3499548c55ca104d55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smallRockChance: 60
-  bigRockChance: 5
   bigRock: {fileID: 7051254338046492805, guid: b32ba7ab1dbe0954f9eb3378dd820a77, type: 3}
   smallRock: {fileID: 8201543817924514817, guid: acdd294adbd6a8d4bbfacc853615ade2,
     type: 3}
+  mat1: {fileID: 8201543817924514817, guid: 958bedbc26c54fb45a7dff92112c58c4, type: 3}
+  mat2: {fileID: 8201543817924514817, guid: e253ab23ad0c23f42a47c5330667a602, type: 3}
+  mat3: {fileID: 8201543817924514817, guid: fe0c6ea341af1684c8b1503e000f3dcb, type: 3}
+  mat4: {fileID: 8201543817924514817, guid: 35b4dd1410e8f734cbecf5259aca3907, type: 3}
+  mat5: {fileID: 8201543817924514817, guid: faf29135d4402ec44be57bd0e1fc6d25, type: 3}
 --- !u!4 &1137786356
 Transform:
   m_ObjectHideFlags: 0
