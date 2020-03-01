@@ -21,15 +21,6 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
-            //if(overheadCam.enabled) //seems to run twice per click?
-            //{
-            //    cam = overheadCam;
-            //}
-            //else if (playerCam.enabled)
-            //{
-            //    cam = playerCam;
-            //}
-
             //shoots ray from camera towards mouseclick
             clickRay = cam.ScreenPointToRay(Input.mousePosition);
             //point of collision from camera raycast
@@ -41,6 +32,10 @@ public class Movement : MonoBehaviour
                 //...tell player to move to that point
                 playerAgent.SetDestination(hitInfo.point);
             }
+        }
+        else if (Input.GetKeyDown("g"))
+        {
+            playerAgent.SetDestination(Vector3.zero);
         }
     }
 }
