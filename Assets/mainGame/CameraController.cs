@@ -8,17 +8,18 @@ public class CameraController : MonoBehaviour
     private Vector3 currentPos;
 
     // Variables for panning
-    public float panSpeed = 20f;
-    public float panBorderThickness = 10f;
-    public Vector2 panLimit;
-    public float scrollSpeed = 20f;
-    public float minY = 20f;
-    public float maxY = 120f;
+    private float panSpeed = 30f;
+    private float panBorderThickness = 10f;
+    private Vector2 panLimit = new Vector2 (90, 90);
+    private float scrollSpeed = 30f;
+    private float minY = 20f;
+    private float maxY = 100f;
 
     // Variables for camera follow
     public Transform target;
-    public float smoothSpeed = 0.125f;
-    public Vector3 offset;
+    private float smoothSpeed = 0.125f;
+    private Vector3 offset = new Vector3(0, 0, -15);
+
     void Update()
     {
         Vector3 pos = transform.position;
@@ -65,7 +66,7 @@ public class CameraController : MonoBehaviour
     }
 
     // Smooth follow; currently set to follow at a certain offset; need to figure out how to make the camera follow at any Y distance
-    void FixedUpdate()
+    void LateUpdate()
     {
         Vector3 desiredPosition = target.position + offset;
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
@@ -78,7 +79,5 @@ public class CameraController : MonoBehaviour
         {
             transform.position = currentPos; // If space is let go, the camera stays at the spot you let go at
         }
-
-
     }
 }
