@@ -512,7 +512,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1137786354}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5f996895de62a3499548c55ca104d55, type: 3}
+  m_Script: {fileID: 11500000, guid: 8d8e5b10fc56cd84cb46334aa3a74314, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   bigRock: {fileID: 7051254338046492805, guid: b32ba7ab1dbe0954f9eb3378dd820a77, type: 3}
@@ -630,14 +630,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1271562058}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af7f572d0581a8d49b1f73e4c8e8f1af, type: 3}
+  m_Script: {fileID: 11500000, guid: 0daa85410b6ca2546881fb037c0982ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1811756417}
-  offset: {x: 0, y: 20, z: -6}
---- !u!1 &1811756417 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1817656819029409170, guid: 43f8fe8f49c88e744a50a93924e72e10,
+  panSpeed: 20
+  panBorderThickness: 10
+  panLimit: {x: 0, y: 0}
+  scrollSpeed: 20
+  minY: 20
+  maxY: 120
+  target: {fileID: 1811756425}
+  smoothSpeed: 0.125
+  offset: {x: 0, y: 0, z: 0}
+--- !u!4 &1811756425 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1817656819029409175, guid: 43f8fe8f49c88e744a50a93924e72e10,
     type: 3}
   m_PrefabInstance: {fileID: 1079115675}
   m_PrefabAsset: {fileID: 0}
