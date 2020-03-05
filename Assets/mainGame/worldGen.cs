@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class worldGen : MonoBehaviour
 {
-    /*----------------------------READ ME------------------------------
-     * The density of the rocks and minerals generated are directly
-     * correlated to their spawn chances. Chanes are expressed in %. */
+ /*----------------------------READ ME------------------------------
+  * The density of the rocks and minerals generated are directly
+  * correlated to their spawn chances. Chanes are expressed in %. */
     private float smallRockChance = 60;
     private float bigRockChance = 5;
     private float mat1Chance = 0.5f;
@@ -38,19 +38,36 @@ public class worldGen : MonoBehaviour
 
     void Start()
     {
+        makeRocksInteractable();
         placeRocks();
+    }
+
+    private void makeRocksInteractable()
+    {
+        //adds the "Interactable" script as a component to each GameObject
+
+        smallRock.AddComponent<Interactable>();
+        bigRock.AddComponent<Interactable>();
+
+        mat1.AddComponent<Interactable>();
+        mat2.AddComponent<Interactable>();
+        mat3.AddComponent<Interactable>();
+        mat4.AddComponent<Interactable>();
+        mat5.AddComponent<Interactable>();
+
     }
 
     private void placeRocks()
     {
+
         //iterate over the z-axis of plane
-        for (int z = zLim; z > -zLim - 1; z -= 2)
+        for (int z = zLim; z > -zLim - 1; z-=2)
         {
             //fill in every x-axis line
             for (int x = xLim; x < -xLim + 1; x++)
             {
                 float roll = Random.Range(1f, 100f);
-                //1 - 5
+                Debug.Log(roll);
                 if (roll <= bigRockChance)
                 {
                     Vector3 spawnPos = new Vector3(x + 1, 1, z - 1);
@@ -64,8 +81,11 @@ public class worldGen : MonoBehaviour
                         that was just placed. Useless.*/
                         x += 2;
                     }
+                    //if (spawnPos.x >= 80)
+                    //{
+                    //    Debug.Log("This is it pardner");
+                    //}
                 }
-                //5 - 65
                 else if (roll <= smallRockChance + bigRockChance)
                 {
                     Vector3 spawnPos = new Vector3(x, 1, z);
@@ -76,7 +96,6 @@ public class worldGen : MonoBehaviour
                         x++;
                     }
                 }
-                //65 - 65.5
                 else if (roll <= smallRockChance + bigRockChance
                     + mat1Chance)
                 {
@@ -88,7 +107,6 @@ public class worldGen : MonoBehaviour
                         x++;
                     }
                 }
-                //65.5 - 66
                 else if (roll <= smallRockChance + bigRockChance
                     + mat1Chance + mat2Chance)
                 {
@@ -100,7 +118,6 @@ public class worldGen : MonoBehaviour
                         x++;
                     }
                 }
-                //66 - 66.5
                 else if (roll <= smallRockChance + bigRockChance
                     + mat1Chance + mat2Chance + mat3Chance)
                 {
@@ -112,7 +129,6 @@ public class worldGen : MonoBehaviour
                         x++;
                     }
                 }
-                //66.5 - 67
                 else if (roll <= smallRockChance + bigRockChance
                     + mat1Chance + mat2Chance + mat3Chance
                     + mat4Chance)
@@ -125,7 +141,6 @@ public class worldGen : MonoBehaviour
                         x++;
                     }
                 }
-                //67 - 67.5
                 else if (roll <= smallRockChance + bigRockChance
                     + mat1Chance + mat2Chance + mat3Chance
                     + mat4Chance + mat5Chance)
