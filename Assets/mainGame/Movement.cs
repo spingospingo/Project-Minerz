@@ -6,7 +6,6 @@ using UnityEngine.AI;
 public class Movement : MonoBehaviour
 {
     public LayerMask navigable; //mesh that can be clicked on for movement
-    //public Camera overheadCam;
 
     private NavMeshAgent playerAgent;
     private Ray clickRay;
