@@ -9,7 +9,25 @@ public class dayHandler : MonoBehaviour
     private GameObject moon;
 
     private float timeInSeconds;
-    private int dayLengthInSeconds = 10;
+
+    private int dayLengthInSeconds = 120;
+    public int DayLengthInSeconds
+    {
+        get { return dayLengthInSeconds; }
+        set
+        {
+            if (value > 0 && value <= 240)
+            {
+                dayLengthInSeconds = value;
+            }
+            else
+            {
+                throw new Exception("dayLength out of range!" +
+                    "(0-240 sec)");
+            }
+        }
+    }
+
     private bool day = true;
     private int dayCount = 1;
 
