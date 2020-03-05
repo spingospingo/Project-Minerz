@@ -484,6 +484,11 @@ PrefabInstance:
       propertyPath: m_ObstacleAvoidanceType
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8025796917326695185, guid: 43f8fe8f49c88e744a50a93924e72e10,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43f8fe8f49c88e744a50a93924e72e10, type: 3}
 --- !u!1 &1137786354
