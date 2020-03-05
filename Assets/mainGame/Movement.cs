@@ -33,6 +33,36 @@ public class Movement : MonoBehaviour
                 playerAgent.SetDestination(hitInfo.point);
             }
         }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            clickRay = cam.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hitInfo;
+
+            if (Physics.Raycast(clickRay, out hitInfo))
+            {
+                Debug.Log(hitInfo.collider);
+
+                //check for interactable component
+                Interactable interactable = hitInfo.collider.GetComponent<Interactable>();
+
+                //If interactable component is clicked 
+                if (interactable != null)
+                {
+                    Debug.Log("Left click hit interactable");
+                }
+
+                Debug.Log(interactable);
+            }
+            /* Currently clicks object twice and returns
+             * null for second click.Apparently this code 
+             * should written under void Update() instead 
+             * of onGUI() to avoid this problem.            */
+
+
+
+        }
+
         else if (Input.GetKeyDown("g"))
         {
             playerAgent.SetDestination(Vector3.zero);
