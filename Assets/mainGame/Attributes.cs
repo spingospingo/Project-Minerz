@@ -11,7 +11,7 @@ public class Attributes : MonoBehaviour
 
     void Start()
     {
-        health = (int)Math.Round(/*getDay() * */ scalingConstant * startingHealth);
+        health = (int)Math.Round(/*getDay() **/ scalingConstant * startingHealth);
     }
 
     void FixedUpdate()
@@ -32,7 +32,7 @@ public class Attributes : MonoBehaviour
 
     //private float getDay()
     //{
-    //    //GameObject dayTracker = GameObject.Find("dayTracker");
-    //    //return dayTracker.day;
+    //    GameObject dayTracker = GameObject.Find("dayTracker");
+    //    return dayTracker.day;
     //}
 }
