@@ -26,7 +26,7 @@ public class mineralAttributes : MonoBehaviour
 
     void Update()
     {
-
+        mineralAmountUpdateScript();
     }
 
 
@@ -61,6 +61,11 @@ public class mineralAttributes : MonoBehaviour
                  {
                     testbool = true;
                  }
+
+                if (mineralAmount < 401)
+                {
+                  testbool = false;
+                }
 
         }
 
