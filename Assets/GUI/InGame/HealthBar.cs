@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-
     private Slider slider;
     private int counter;
 
@@ -13,15 +12,13 @@ public class HealthBar : MonoBehaviour
     public Image Fill;
     public Color MaxHealthColor = Color.green;
     public Color MinHealthColor = Color.red;
-    private BuildingAttributes buildingAttributes;
-
+    private buildingAttributes Attributes;
 
     private void Awake()
     {
         slider = gameObject.GetComponent<Slider>();
-        buildingAttributes = GameObject.Find("buildingPlaceHolder").GetComponent<BuildingAttributes>();
+        Attributes = GameObject.Find("buildingPlaceHolder").GetComponent<buildingAttributes>();
         counter = Health;           
-
     }
 
     private void Start()
@@ -34,11 +31,10 @@ public class HealthBar : MonoBehaviour
 
     private void Update()
     {
-        Health = buildingAttributes.Health;
+        Health = Attributes.Health;
         slider.value = Health;                                                                   
         Fill.color = Color.Lerp(MinHealthColor, MaxHealthColor, slider.value / slider.maxValue);
     }
-
 }
    
         

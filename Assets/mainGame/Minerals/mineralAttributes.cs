@@ -4,70 +4,65 @@ using UnityEngine;
 
 public class mineralAttributes : MonoBehaviour
 {
-    private Material mineralType;
+    //private Material mineralType;
 
     private int mineralAmount;
     public int MineralAmount  
     {
         get { return mineralAmount; }
-        set
-        {
-
-        }
-
+        set { }
     }
 
-
-    void Awake()
+    void Start()
     {
         mineralAmountScript();
-        mineralTypeScript(); 
+        //mineralTypeScript(); 
     }
 
     void Update()
     {
-        mineralAmountUpdateScript();
+        //mineralAmountUpdateScript();
     }
 
+    private void mineralAmountScript()
+    {
+        mineralAmount = Random.Range(9000, 11000);
+    }
 
-        private void mineralAmountScript()
+    //private void mineralTypeScript()
+    //{
+    //    mineralType = GetComponent<Renderer>().material;
+    //    Debug.Log(mineralType);
+    //}
+
+    //for test the mineral amount during runtime
+    private void mineralAmountUpdateScript() 
+    {
+        bool limitBool = true;
+
+        if (limitBool == true)
         {
-            mineralAmount = Random.Range(400, 500);
+            mineralAmount--;
+        }
+        else
+        {
+            mineralAmount++;
         }
 
-
-        private void mineralTypeScript()
+        if (mineralAmount > 9999)
         {
-            mineralType = GetComponent<Renderer>().material;
-            Debug.Log(mineralType);
-        } 
+            limitBool = true;
+        }
+        else if (mineralAmount < 1)
+        {
+            limitBool = false;
+        }
+    }
     
-        private void mineralAmountUpdateScript() //This Method will be used to "mine" from the game object, for now it is used to test the mineral amount during runtime
-        {
-
-            bool testbool = true;
-
-                if (testbool == true)
-                {
-                    mineralAmount--;
-                }
-                
-                if (testbool == false)
-                {
-                    mineralAmount++;
-                }
-
-                if (mineralAmount > 499)
-                 {
-                    testbool = true;
-                 }
-
-                if (mineralAmount < 401)
-                {
-                  testbool = false;
-                }
-
-        }
-
-
+    //player sends mine() to this object
+    public int mine(int value)
+    {
+        mineralAmount -= value;
+        return value;
     }
+}
