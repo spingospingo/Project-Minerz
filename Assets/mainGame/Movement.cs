@@ -45,16 +45,12 @@ public class Movement : MonoBehaviour
             {
                 Debug.Log(hitInfo.collider);
 
-                //check for interactable component
-                Interactable interactable = hitInfo.collider.GetComponent<Interactable>();
-
-                //If interactable component is clicked 
-                if (interactable != null)
+                if (hitInfo.collider.gameObject.tag == "Interactable")
                 {
+
                     Debug.Log("Left click hit interactable");
                 }
 
-                Debug.Log(interactable);
             }
         }
 

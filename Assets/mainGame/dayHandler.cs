@@ -23,7 +23,7 @@ public class dayHandler : MonoBehaviour
             else
             {
                 throw new Exception("dayLength out of range!" +
-                    "(0-240 sec)");
+                    "(1-240 sec)");
             }
         }
     }

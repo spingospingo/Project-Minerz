@@ -3,15 +3,20 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Attributes : MonoBehaviour
+public class buildingAttributes : MonoBehaviour
 {
-    private float startingHealth = 100f;
+    private float startingHealth = 1000f;
     private float scalingConstant = 1.0f;
     private int health;
+    public int Health
+    {
+        get { return health; }
+        set { }
+    }
 
     void Start()
     {
-        health = (int)Math.Round(/*getDay() **/ scalingConstant * startingHealth);
+        health = (int)Math.Round(scalingConstant * startingHealth);
     }
 
     void FixedUpdate()
@@ -29,10 +34,4 @@ public class Attributes : MonoBehaviour
     {
         health -= damage;
     }
-
-    //private float getDay()
-    //{
-    //    GameObject dayTracker = GameObject.Find("dayTracker");
-    //    return dayTracker.day;
-    //}
 }

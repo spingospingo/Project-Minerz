@@ -38,24 +38,10 @@ public class worldGen : MonoBehaviour
 
     void Start()
     {
-        makeRocksInteractable();
         placeRocks();
     }
 
-    private void makeRocksInteractable()
-    {
-        //adds the "Interactable" script as a component to each GameObject
 
-        smallRock.AddComponent<Interactable>();
-        bigRock.AddComponent<Interactable>();
-
-        mat1.AddComponent<Interactable>();
-        mat2.AddComponent<Interactable>();
-        mat3.AddComponent<Interactable>();
-        mat4.AddComponent<Interactable>();
-        mat5.AddComponent<Interactable>();
-
-    }
 
     private void placeRocks()
     {
@@ -67,7 +53,6 @@ public class worldGen : MonoBehaviour
             for (int x = xLim; x < -xLim + 1; x++)
             {
                 float roll = Random.Range(1f, 100f);
-                Debug.Log(roll);
                 if (roll <= bigRockChance)
                 {
                     Vector3 spawnPos = new Vector3(x + 1, 1, z - 1);
