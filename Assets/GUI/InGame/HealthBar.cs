@@ -9,35 +9,38 @@ public class HealthBar : MonoBehaviour
     private Slider slider;
     private int counter;
 
-    public int MaxHealth = 1000;
-    public Image Fill;  
+    public int Health = 1000;
+    public Image Fill;
     public Color MaxHealthColor = Color.green;
     public Color MinHealthColor = Color.red;
+    private BuildingAttributes buildingAttributes;
+
 
     private void Awake()
     {
         slider = gameObject.GetComponent<Slider>();
-        counter = MaxHealth;            // counter will be used for testin, can be replaced with other variables
+        buildingAttributes = GameObject.Find("buildingPlaceHolder").GetComponent<BuildingAttributes>();
+        counter = Health;           
+
     }
 
     private void Start()
     {
-        slider.wholeNumbers = true;        
+        slider.wholeNumbers = true;
         slider.minValue = 0f;
-        slider.maxValue = MaxHealth;
-        slider.value = MaxHealth;        // start with max health
+        slider.maxValue = 1000f;
+        slider.value = Health;        
     }
 
     private void Update()
     {
-        UpdateHealthBar(counter);        // for the purpose of testing
-        counter--;                        // health is artificially lowered
-
+        Health = buildingAttributes.Health;
+        slider.value = Health;                                                                   
+        Fill.color = Color.Lerp(MinHealthColor, MaxHealthColor, slider.value / slider.maxValue);
     }
 
-    public void UpdateHealthBar(int val)
-    {
-        slider.value = val;
-        Fill.color = Color.Lerp(MinHealthColor, MaxHealthColor, (float)val / MaxHealth);
-    }
 }
+   
+        
+       
+   

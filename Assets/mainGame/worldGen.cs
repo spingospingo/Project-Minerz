@@ -67,7 +67,6 @@ public class worldGen : MonoBehaviour
             for (int x = xLim; x < -xLim + 1; x++)
             {
                 float roll = Random.Range(1f, 100f);
-                Debug.Log(roll);
                 if (roll <= bigRockChance)
                 {
                     Vector3 spawnPos = new Vector3(x + 1, 1, z - 1);
