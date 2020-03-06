@@ -38,24 +38,10 @@ public class worldGen : MonoBehaviour
 
     void Start()
     {
-        makeRocksInteractable();
         placeRocks();
     }
 
-    private void makeRocksInteractable()
-    {
-        //adds the "Interactable" script as a component to each GameObject
 
-        smallRock.AddComponent<Interactable>();
-        bigRock.AddComponent<Interactable>();
-
-        mat1.AddComponent<Interactable>();
-        mat2.AddComponent<Interactable>();
-        mat3.AddComponent<Interactable>();
-        mat4.AddComponent<Interactable>();
-        mat5.AddComponent<Interactable>();
-
-    }
 
     private void placeRocks()
     {
