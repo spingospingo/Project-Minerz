@@ -8,8 +8,20 @@ public class Movement : MonoBehaviour
     public LayerMask navigable; //mesh that can be clicked on for movement
 
     private NavMeshAgent playerAgent;
+    private GameObject interactableGameObject;
+
+    private int attributeType;
+    public int AttributeType
+    {
+        get { return attributeType; }
+        set { }
+
+    }
+
+    private bool interactableCheckTest = false;
     private Ray clickRay;
     public Camera cam;
+    public int guiMineralAmount;
 
     void Start()
     {
@@ -17,6 +29,18 @@ public class Movement : MonoBehaviour
     }
 
     void OnGUI()
+    {
+        movePlayer();
+        interactableTrueCheck();
+        interactableAttributesCheck();
+    }
+
+    void Update()
+    {
+
+    }
+
+    private void movePlayer()
     {
         if (Input.GetMouseButtonDown(1))
         {
@@ -34,8 +58,9 @@ public class Movement : MonoBehaviour
         }
     }
 
-    void Update()
-    { 
+
+    private void interactableTrueCheck()
+    {
         if (Input.GetMouseButtonDown(0))
         {
             clickRay = cam.ScreenPointToRay(Input.mousePosition);
@@ -45,18 +70,57 @@ public class Movement : MonoBehaviour
             {
                 Debug.Log(hitInfo.collider);
 
-                if (hitInfo.collider.gameObject.tag == "Interactable")
+                //if object has tag "Interactable"
+                if (hitInfo.collider.gameObject.tag == "Interactable")  
                 {
 
-                    Debug.Log("Left click hit interactable");
+                //Set object to interactableGameObject and mark interactableCheckTest as true
+                    interactableGameObject = hitInfo.collider.gameObject;
+                    interactableCheckTest = true;
+
+                    Debug.Log(interactableGameObject);
+
+                    
+                }
+                //if object does not have tag "Interactable"
+                if (hitInfo.collider.gameObject.tag != "Interactable")
+                {
+                //mark interactableCheckTest as false
+                    interactableCheckTest = false;
                 }
 
+
+
+
+                else if (Input.GetKeyDown("g"))                         
+                {
+                    playerAgent.SetDestination(Vector3.zero);
+                } 
             }
         }
-
-        else if (Input.GetKeyDown("g"))
-        {
-            playerAgent.SetDestination(Vector3.zero);
-        }
     }
+
+
+
+    private void interactableAttributesCheck()
+    {   if(interactableCheckTest == true)
+        {
+            
+            mineralAttributes mineralAttributesCheck = interactableGameObject.GetComponent<mineralAttributes>();
+            if (mineralAttributesCheck != null)
+            {
+                guiMineralAmount = mineralAttributesCheck.MineralAmount;
+                attributeType = 0;
+            }
+
+            buildingAttributes buildingAttributesCheck = interactableGameObject.GetComponent<buildingAttributes>();
+            if (buildingAttributesCheck != null)
+            { attributeType = 1; }
+
+        }
+
+    }
+
+
+    
 }
