@@ -10,7 +10,7 @@ public class CameraController : MonoBehaviour
     // Variables for panning
     private float panSpeed = 30f;
     private float panBorderThickness = 10f;
-    private Vector2 panLimit = new Vector2 (90, 90);
+    private Vector2 panLimit = new Vector2(90, 90);
     private float scrollSpeed = 30f;
     private float minY = 20f;
     private float maxY = 100f;
@@ -18,12 +18,62 @@ public class CameraController : MonoBehaviour
     // Variables for camera follow
     public Transform target;
     private float smoothSpeed = 0.125f;
-    private Vector3 offset = new Vector3(0, 0, -15);
+    private Vector3 offset = new Vector3(0f, 0f, -15f);
+
+    private Vector3 asdf = new Vector3(0, 0, 0);
 
     void Update()
     {
         Vector3 pos = transform.position;
 
+        if (camStatus == true)
+        {
+            offset = target.position + asdf;
+        }
+        if (Input.GetKeyDown(KeyCode.PageUp) && camStatus == false)
+        {
+            camStatus = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.PageDown))
+        {
+            camStatus = false;
+        }
+        currentPos = cameraPan(pos);
+        currentPos = Zoom(currentPos);
+        transform.position = currentPos;
+    }
+
+    // Controls camera follow, figure out how to follow at changing y values
+    void LateUpdate()
+    {
+        Vector3 desiredPosition = offset;
+        Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
+
+        if(camStatus == true)
+        {
+            transform.position = smoothedPosition;
+        }
+        else if(camStatus == false)
+        {
+            transform.position = currentPos;
+        }
+        
+    }
+
+    Vector3 Zoom(Vector3 pos)
+    {
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        pos.y -= scroll * scrollSpeed * 100 * Time.deltaTime;
+
+        // Limits how far you can zoom in/out
+        pos.x = Mathf.Clamp(pos.x, -panLimit.x, +panLimit.x);
+        pos.y = Mathf.Clamp(pos.y, minY, maxY);
+        pos.z = Mathf.Clamp(pos.z, -panLimit.y, +panLimit.y);
+        return pos;
+    }
+
+    Vector3 cameraPan(Vector3 pos)
+    {
         // Key controls for panning
         if (Input.GetKey("w") || Input.mousePosition.y >= Screen.height - panBorderThickness)
         {
@@ -42,42 +92,6 @@ public class CameraController : MonoBehaviour
             pos.x += panSpeed * Time.deltaTime;
         }
 
-        // Zoom in/out
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
-        pos.y -= scroll * scrollSpeed * 100 * Time.deltaTime;
-
-        // Limits how far you can zoom in/out
-        pos.x = Mathf.Clamp(pos.x, -panLimit.x, +panLimit.x);
-        pos.y = Mathf.Clamp(pos.y, minY, maxY);
-        pos.z = Mathf.Clamp(pos.z, -panLimit.y, +panLimit.y);
-
-        transform.position = pos;
-        currentPos = pos;
-
-        // Camera Follow
-        if (Input.GetKeyDown(KeyCode.Space) && camStatus == false)
-        {
-            camStatus = true;
-        }
-        else if (Input.GetKeyUp(KeyCode.Space))
-        {
-            camStatus = false;
-        }
-    }
-
-    // Smooth follow; currently set to follow at a certain offset; need to figure out how to make the camera follow at any Y distance
-    void LateUpdate()
-    {
-        Vector3 desiredPosition = target.position + offset;
-        Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
-        
-        if (camStatus == true)
-        {
-            transform.position = smoothedPosition;
-        }
-        else if(camStatus == false)
-        {
-            transform.position = currentPos; // If space is let go, the camera stays at the spot you let go at
-        }
+        return pos;
     }
 }
