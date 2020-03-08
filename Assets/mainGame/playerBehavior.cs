@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Movement : MonoBehaviour
+public class playerBehavior : MonoBehaviour
 {
     public LayerMask navigable; //mesh that can be clicked on for movement
 
@@ -21,7 +21,20 @@ public class Movement : MonoBehaviour
     private bool interactableCheckTest = false;
     private Ray clickRay;
     public Camera cam;
-    public int guiMineralAmount;
+
+    private int guiMineralAmount;
+    public int GuiMineralAmount
+    {
+        get { return guiMineralAmount; }
+        set { }
+    }
+
+    private string guiTypeMineral;
+    public string GuiTypeMineral
+    {
+        get { return guiTypeMineral; }
+        set { }
+    }
 
     void Start()
     {
@@ -33,6 +46,7 @@ public class Movement : MonoBehaviour
         movePlayer();
         interactableTrueCheck();
         interactableAttributesCheck();
+
     }
 
     void Update()
@@ -71,31 +85,32 @@ public class Movement : MonoBehaviour
                 Debug.Log(hitInfo.collider);
 
                 //if object has tag "Interactable"
-                if (hitInfo.collider.gameObject.tag == "Interactable")  
+                if (hitInfo.collider.gameObject.tag == "Interactable")
                 {
 
-                //Set object to interactableGameObject and mark interactableCheckTest as true
+                    //Set object to interactableGameObject and mark interactableCheckTest as true
                     interactableGameObject = hitInfo.collider.gameObject;
                     interactableCheckTest = true;
 
                     Debug.Log(interactableGameObject);
 
-                    
+
                 }
                 //if object does not have tag "Interactable"
                 if (hitInfo.collider.gameObject.tag != "Interactable")
                 {
-                //mark interactableCheckTest as false
+                    //mark interactableCheckTest as false and has attributeType of -1 (no attribute type)
                     interactableCheckTest = false;
+                    attributeType = -1;
                 }
 
 
 
 
-                else if (Input.GetKeyDown("g"))                         
+                else if (Input.GetKeyDown("g"))
                 {
                     playerAgent.SetDestination(Vector3.zero);
-                } 
+                }
             }
         }
     }
@@ -103,14 +118,21 @@ public class Movement : MonoBehaviour
 
 
     private void interactableAttributesCheck()
-    {   if(interactableCheckTest == true)
+    //if interactableCheckTest is true
+    {
+        if (interactableCheckTest == true)
         {
-            
+
+
+            //if interactable object clicked contains mineralAttributes
             mineralAttributes mineralAttributesCheck = interactableGameObject.GetComponent<mineralAttributes>();
             if (mineralAttributesCheck != null)
             {
+                //public variable guiMineralAmount = Mineral Amount of interactable object clicked
                 guiMineralAmount = mineralAttributesCheck.MineralAmount;
+                guiTypeMineral = mineralAttributesCheck.TypeMineral;
                 attributeType = 0;
+              
             }
 
             buildingAttributes buildingAttributesCheck = interactableGameObject.GetComponent<buildingAttributes>();
@@ -121,6 +143,6 @@ public class Movement : MonoBehaviour
 
     }
 
-
-    
 }
+
+

@@ -13,16 +13,53 @@ public class mineralAttributes : MonoBehaviour
         set { }
     }
 
+    private string typeMineral;
+    public string TypeMineral
+    {
+        get { return typeMineral;  }
+        set { }
+    }
     void Start()
     {
         mineralAmountScript();
-        
+        mineralTypeScript();
     }
 
     void Update()
     {
        
     }
+
+
+    private void mineralTypeScript()
+    {
+
+        if(gameObject.name == "material1(Clone)")
+        {
+            typeMineral = "GreenMineral";
+        }
+
+        if (gameObject.name == "material5(Clone)")
+        {
+            typeMineral = "BlueMineral";
+        }
+
+        if (gameObject.name == "material2(Clone)")
+        {
+            typeMineral = "PurpleMineral";
+        }
+
+        if (gameObject.name == "material4(Clone)")
+        {
+            typeMineral = "RedMineral";
+        }
+
+        if (gameObject.name == "material3(Clone)")
+        {
+            typeMineral = "YellowMineral";
+        }
+    }
+
 
     private void mineralAmountScript()
     {
