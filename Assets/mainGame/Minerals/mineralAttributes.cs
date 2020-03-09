@@ -31,6 +31,10 @@ public class mineralAttributes : MonoBehaviour
             //give miner the amount mined
             return value;
         }
+        else if (mineralAmount <= 0)
+        {
+            return 0;
+        }
         else //if there isn't enough to give to miner
         {
             int tempAmount = mineralAmount;

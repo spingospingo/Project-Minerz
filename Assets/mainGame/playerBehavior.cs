@@ -20,17 +20,17 @@ public class playerBehavior : MonoBehaviour
         set { }
     }
 
-    private int guiMineralAmount;
-    public int GuiMineralAmount
+    private int objectMineralAmount;
+    public int ObjectMineralAmount
     {
-        get { return guiMineralAmount; }
+        get { return objectMineralAmount; }
         set { }
     }
 
-    private string guiTypeMineral;
-    public string GuiTypeMineral
+    private string objectMineralType;
+    public string ObjectMineralType
     {
-        get { return guiTypeMineral; }
+        get { return objectMineralType; }
         set { }
     }
 
@@ -44,21 +44,47 @@ public class playerBehavior : MonoBehaviour
 
     void OnGUI()
     {
-        movePlayer();
-        interactableTrueCheck();
+        if (Input.GetMouseButtonDown(1)) //right click
+        {
+            movePlayer();
+        }
+        else if (Input.GetMouseButtonDown(0)) //left click
+        {
+            selectObject();
+        }
     }
 
     private void movePlayer()
     {
-        if (Input.GetMouseButtonDown(1))
-        {
-            //shoots ray from camera towards mouseclick
-            clickRay = cam.ScreenPointToRay(Input.mousePosition);
-            //point of collision from camera raycast
-            RaycastHit hitInfo;
+        NavMeshPath path = new NavMeshPath();
 
-            //if ray collides with navmesh...
-            if (Physics.Raycast(clickRay, out hitInfo, 150, navigable))
+        //shoots ray from camera towards mouseclick
+        clickRay = cam.ScreenPointToRay(Input.mousePosition);
+        //point of collision from camera raycast
+        RaycastHit hitInfo;
+
+        //if ray collides with an interactable object...
+        if (Physics.Raycast(clickRay, out hitInfo, 150, interactable))
+        {
+            //Set object to interactableGameObject and get object attributes
+            interactableGameObject = hitInfo.collider.gameObject;
+            //getInteractableAttributes();
+
+
+            playerAgent.CalculatePath(hitInfo.point, path);
+            //if player can move to the point...
+            if (path.status == NavMeshPathStatus.PathComplete)
+            {
+                //...tell player to move to that point
+                playerAgent.SetDestination(hitInfo.point);
+            }
+        }
+        //if ray collides with navmesh...
+        else if (Physics.Raycast(clickRay, out hitInfo, 150, navigable))
+        {
+            playerAgent.CalculatePath(hitInfo.point, path);
+            //if player can move to the point...
+            if (path.status == NavMeshPathStatus.PathComplete)
             {
                 //...tell player to move to that point
                 playerAgent.SetDestination(hitInfo.point);
@@ -66,37 +92,34 @@ public class playerBehavior : MonoBehaviour
         }
     }
 
-    private void interactableTrueCheck()
+    private void selectObject()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            clickRay = cam.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hitInfo;
+        clickRay = cam.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hitInfo;
 
-            //if object is "interactable"
-            if (Physics.Raycast(clickRay, out hitInfo, 150, interactable))
-            {
-                //Set object to interactableGameObject and mark interactableCheckTest as true
-                interactableGameObject = hitInfo.collider.gameObject;
-                interactableAttributesCheck();
-            }
-            else //if object does not have tag "interactable"
-            {
-                //mark interactableCheckTest as false and has attributeType of -1 (no attribute type)
-                attributeType = "none";
-            }
+        //if object is "interactable"
+        if (Physics.Raycast(clickRay, out hitInfo, 150, interactable))
+        {
+            //Set object to interactableGameObject and get object attributes
+            interactableGameObject = hitInfo.collider.gameObject;
+            getInteractableAttributes();
+        }
+        //if object does not have tag "interactable"
+        else
+        {
+            attributeType = "none";
         }
     }
 
-    private void interactableAttributesCheck()
+    private void getInteractableAttributes()
     {
         //if interactable object clicked contains mineralAttributes
         mineralAttributes mineralAttributesCheck = interactableGameObject.GetComponent<mineralAttributes>();
         if (mineralAttributesCheck != null)
         {
             //public variable guiMineralAmount = Mineral Amount of interactable object clicked
-            guiMineralAmount = mineralAttributesCheck.MineralAmount;
-            guiTypeMineral = mineralAttributesCheck.name;
+            objectMineralAmount = mineralAttributesCheck.MineralAmount;
+            objectMineralType = mineralAttributesCheck.name;
             attributeType = "mineral";
         }
 

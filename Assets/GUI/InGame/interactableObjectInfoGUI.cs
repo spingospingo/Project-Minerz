@@ -42,10 +42,10 @@ public class interactableObjectInfoGUI : MonoBehaviour
         else if (GameObject.Find("Player").GetComponent<playerBehavior>().AttributeType == "mineral")
         {
             //send mineral attribute values to gui text
-            playerSelectInfo = GameObject.Find("Player").GetComponent<playerBehavior>().GuiMineralAmount;
+            playerSelectInfo = GameObject.Find("Player").GetComponent<playerBehavior>().ObjectMineralAmount;
             topText.text = playerSelectInfo.ToString();
 
-            imageSelectInfo = GameObject.Find("Player").GetComponent<playerBehavior>().GuiTypeMineral;
+            imageSelectInfo = GameObject.Find("Player").GetComponent<playerBehavior>().ObjectMineralType;
 
             switch(imageSelectInfo)
             {

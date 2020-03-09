@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 78809296}
   - component: {fileID: 78809301}
   - component: {fileID: 78809300}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: buildingPlaceHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -255,7 +255,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 82918885}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -567,7 +567,7 @@ GameObject:
   - component: {fileID: 544542225}
   - component: {fileID: 544542227}
   - component: {fileID: 544542226}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -745,7 +745,7 @@ GameObject:
   - component: {fileID: 614294123}
   - component: {fileID: 614294125}
   - component: {fileID: 614294124}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -912,7 +912,7 @@ GameObject:
   - component: {fileID: 783389425}
   - component: {fileID: 783389424}
   - component: {fileID: 783389423}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: CanvasBuildingHUD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1613,7 +1613,7 @@ GameObject:
   - component: {fileID: 1186355493}
   - component: {fileID: 1186355495}
   - component: {fileID: 1186355494}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1784,7 +1784,7 @@ GameObject:
   - component: {fileID: 1286109695}
   - component: {fileID: 1286109694}
   - component: {fileID: 1286109693}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: CanvasBuildingHUDLighting
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2108,7 +2108,7 @@ GameObject:
   - component: {fileID: 1606466926}
   - component: {fileID: 1606466925}
   - component: {fileID: 1606466927}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2385,7 +2385,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1780525904}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2423,7 +2423,7 @@ GameObject:
   - component: {fileID: 1787726696}
   - component: {fileID: 1787726698}
   - component: {fileID: 1787726697}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
