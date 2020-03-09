@@ -15,7 +15,10 @@ public class playerBehavior : MonoBehaviour
     public GameObject SelectedObject
     {
         get { return selectedObject; }
-        set { }
+        set 
+        { 
+            throw new System.Exception("You are not allowed to set this object."); 
+        }
     }
 
     void Start()
@@ -88,5 +91,3 @@ public class playerBehavior : MonoBehaviour
         }
     }
 }
-
-

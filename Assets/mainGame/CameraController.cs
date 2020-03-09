@@ -13,7 +13,7 @@ public class CameraController : MonoBehaviour
     private Vector2 panLimit = new Vector2(90, 90);
     private float scrollSpeed = 30f;
     private float minY = 20f;
-    private float maxY = 100f;
+    private float maxY = 87f;
 
     // Variables for camera follow
     public Transform target;
