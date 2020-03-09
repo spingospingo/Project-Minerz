@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class mineralAttributes : MonoBehaviour
 {
-    //private Material mineralType;
-
     private int mineralAmount;
     public int MineralAmount  
     {
@@ -13,65 +11,31 @@ public class mineralAttributes : MonoBehaviour
         set { }
     }
 
-    private string typeMineral;
-    public string TypeMineral
-    {
-        get { return typeMineral;  }
-        set { }
-    }
     void Start()
     {
-        mineralAmountScript();
-        mineralTypeScript();
+        mineralGen();
     }
 
-    void Update()
-    {
-       
-    }
-
-
-    private void mineralTypeScript()
-    {
-
-        if(gameObject.name == "material1(Clone)")
-        {
-            typeMineral = "GreenMineral";
-        }
-
-        if (gameObject.name == "material5(Clone)")
-        {
-            typeMineral = "BlueMineral";
-        }
-
-        if (gameObject.name == "material2(Clone)")
-        {
-            typeMineral = "PurpleMineral";
-        }
-
-        if (gameObject.name == "material4(Clone)")
-        {
-            typeMineral = "RedMineral";
-        }
-
-        if (gameObject.name == "material3(Clone)")
-        {
-            typeMineral = "YellowMineral";
-        }
-    }
-
-
-    private void mineralAmountScript()
+    private void mineralGen()
     {
         mineralAmount = Random.Range(9000, 11000);
     }
 
-
-    
     //player sends mine() to this object
     public int mine(int value)
     {
-        mineralAmount -= value;
-        return value;
+        if (mineralAmount > value)
+        {
+            //subtract mine amount from mineral node
+            mineralAmount -= value;
+            //give miner the amount mined
+            return value;
+        }
+        else //if there isn't enough to give to miner
+        {
+            int tempAmount = mineralAmount;
+            mineralAmount = 0;
+            return tempAmount;
+        }
     }
 }

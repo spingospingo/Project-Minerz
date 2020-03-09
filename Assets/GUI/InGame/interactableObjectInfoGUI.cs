@@ -5,87 +5,78 @@ using UnityEngine.UI;
 
 public class interactableObjectInfoGUI : MonoBehaviour
 {
- 
     private Text topText;
     private GameObject imageSelect;
-    private int playerSelectInfo;
-    private string imageSelectInfo;
-
+    private int mineralAmount;
+    private string objectName;
 
     void Start()
     {
-        guiGetGUIComponent();
+        getGUIComponent();
     }
 
     void Update()
     {
-        guiGetAttributeUpdate(); //for some reason this script does not work in onGUI()
+        setSelectedObjectGUI(); 
     }
 
-
-
-
-    private void guiGetGUIComponent()
+    private void getGUIComponent()
     {
         //find the text box component 
         topText = GameObject.Find("TopText").GetComponent<Text>();
         topText.text = " ";
 
-
         imageSelect = GameObject.Find("matFrameWorkImage");
         imageSelect.gameObject.SetActive(false);
- 
     }
 
-
-
-    private void guiGetAttributeUpdate()
+    private void setSelectedObjectGUI()
     {
-        //if variable AttributeType = -1 (no attribute type)
-        if (GameObject.Find("Player").GetComponent<playerBehavior>().AttributeType == -1)
+        //if mineral is selected
+        if (GameObject.Find("Player").GetComponent<playerBehavior>().SelectedObject.tag == "Mineral")
         {
+            //send mineral attribute values to gui text
+            mineralAmount = GameObject.Find("Player").GetComponent<playerBehavior>()
+                .SelectedObject.GetComponent<mineralAttributes>().MineralAmount;
+            topText.text = mineralAmount.ToString();
+
+            objectName = GameObject.Find("Player").GetComponent<playerBehavior>().SelectedObject.name;
+            switch(objectName)
+            {
+                case "material1(Clone)":
+                    imageSelect.gameObject.SetActive(true);
+                    imageSelect.GetComponent<Image>().color = Color.green;
+                    break;
+                case "material2(Clone)":
+                    imageSelect.gameObject.SetActive(true);
+                    imageSelect.GetComponent<Image>().color = new Color(128f / 255f, 0f, 128f / 255f);
+                    break;
+                case "material3(Clone)":
+                    imageSelect.gameObject.SetActive(true);
+                    imageSelect.GetComponent<Image>().color = Color.yellow;
+                    break;
+                case "material4(Clone)":
+                    imageSelect.gameObject.SetActive(true);
+                    imageSelect.GetComponent<Image>().color = Color.red;
+                    break;
+                case "material5(Clone)":
+                    imageSelect.gameObject.SetActive(true);
+                    imageSelect.GetComponent<Image>().color = Color.blue;
+                    break;
+            }
+        }
+        //if rock is selected
+        else if (GameObject.Find("Player").GetComponent<playerBehavior>().SelectedObject.tag == "Rock")
+        {
+            //placeholder code, simply "deselects" an object according to the ui
             topText.text = " ";
             imageSelect.gameObject.SetActive(false);
         }
-
-        //if variable Attributetype = 0 (mineral attribute type)
-        if (GameObject.Find("Player").GetComponent<playerBehavior>().AttributeType == 0)
+        //if no interactable object is selected (ground)
+        else
         {
-            //send mineral attribute values to gui text
-            playerSelectInfo = GameObject.Find("Player").GetComponent<playerBehavior>().GuiMineralAmount;
-            topText.text = playerSelectInfo.ToString();
-
-            imageSelectInfo = GameObject.Find("Player").GetComponent<playerBehavior>().GuiTypeMineral;
-
-            if (imageSelectInfo == "GreenMineral")
-            {
-                imageSelect.gameObject.SetActive(true);
-                imageSelect.GetComponent<Image>().color = Color.green;
-            }
-
-            if (imageSelectInfo == "BlueMineral")
-            {
-                imageSelect.gameObject.SetActive(true);
-                imageSelect.GetComponent<Image>().color = Color.blue;
-            }
-
-            if (imageSelectInfo == "PurpleMineral")
-            {
-                imageSelect.gameObject.SetActive(true);
-                imageSelect.GetComponent<Image>().color = new Color(128f/255f, 0f, 128f/255f);
-            }
-
-            if (imageSelectInfo == "RedMineral")
-            {
-                imageSelect.gameObject.SetActive(true);
-                imageSelect.GetComponent<Image>().color = Color.red;
-            }
-
-            if (imageSelectInfo == "YellowMineral")
-            {
-                imageSelect.gameObject.SetActive(true);
-                imageSelect.GetComponent<Image>().color = Color.yellow;
-            }
+            topText.text = " ";
+            imageSelect.gameObject.SetActive(false);
         }
     }
 }

@@ -41,11 +41,8 @@ public class worldGen : MonoBehaviour
         placeRocks();
     }
 
-
-
     private void placeRocks()
     {
-
         //iterate over the z-axis of plane
         for (int z = zLim; z > -zLim - 1; z-=2)
         {

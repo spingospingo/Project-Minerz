@@ -5,66 +5,70 @@ using UnityEngine.AI;
 
 public class playerBehavior : MonoBehaviour
 {
-    public LayerMask navigable; //mesh that can be clicked on for movement
+    private LayerMask navigable, interactable;
 
     private NavMeshAgent playerAgent;
-    private GameObject interactableGameObject;
-
-    private int attributeType;
-    public int AttributeType
-    {
-        get { return attributeType; }
-        set { }
-
-    }
-
-    private bool interactableCheckTest = false;
     private Ray clickRay;
-    public Camera cam;
+    private Camera cam;
 
-    private int guiMineralAmount;
-    public int GuiMineralAmount
+    private GameObject selectedObject;
+    public GameObject SelectedObject
     {
-        get { return guiMineralAmount; }
-        set { }
-    }
-
-    private string guiTypeMineral;
-    public string GuiTypeMineral
-    {
-        get { return guiTypeMineral; }
+        get { return selectedObject; }
         set { }
     }
 
     void Start()
     {
+        selectedObject = GameObject.Find("Floor"); //instantiate to "no selection"
+        cam = Camera.main;
         playerAgent = GetComponent<NavMeshAgent>();
+        navigable = LayerMask.GetMask("Floor");
+        interactable = LayerMask.GetMask("Interactable");
     }
 
     void OnGUI()
     {
-        movePlayer();
-        interactableTrueCheck();
-        interactableAttributesCheck();
-
-    }
-
-    void Update()
-    {
-
+        if (Input.GetMouseButtonDown(1)) //right click
+        {
+            movePlayer();
+        }
+        else if (Input.GetMouseButtonDown(0)) //left click
+        {
+            selectObject();
+        }
     }
 
     private void movePlayer()
     {
-        if (Input.GetMouseButtonDown(1))
-        {
-            //shoots ray from camera towards mouseclick
-            clickRay = cam.ScreenPointToRay(Input.mousePosition);
-            //point of collision from camera raycast
-            RaycastHit hitInfo;
+        //instantiate path variable to check if 
+        NavMeshPath path = new NavMeshPath();
 
-            //if ray collides with navmesh...
-            if (Physics.Raycast(clickRay, out hitInfo, 150, navigable))
+        //shoots ray from camera towards mouseclick
+        clickRay = cam.ScreenPointToRay(Input.mousePosition);
+        //point of collision from camera raycast
+        RaycastHit hitInfo;
+
+        //if ray collides with an interactable object...
+        if (Physics.Raycast(clickRay, out hitInfo, 150, interactable))
+        {
+            //Set object to interactableGameObject and get object attributes
+            selectedObject = hitInfo.collider.gameObject;
+
+            playerAgent.CalculatePath(hitInfo.point, path);
+            //if player can move to the point...
+            if (path.status == NavMeshPathStatus.PathComplete)
+            {
+                //...tell player to move to that point
+                playerAgent.SetDestination(hitInfo.point);
+            }
+        }
+        //if ray collides with navmesh...
+        else if (Physics.Raycast(clickRay, out hitInfo, 150, navigable))
+        {
+            playerAgent.CalculatePath(hitInfo.point, path);
+            //if player can move to the point...
+            if (path.status == NavMeshPathStatus.PathComplete)
             {
                 //...tell player to move to that point
                 playerAgent.SetDestination(hitInfo.point);
@@ -72,77 +76,17 @@ public class playerBehavior : MonoBehaviour
         }
     }
 
-
-    private void interactableTrueCheck()
+    private void selectObject()
     {
-        if (Input.GetMouseButtonDown(0))
+        clickRay = cam.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hitInfo;
+
+        //if ray collides with object
+        if (Physics.Raycast(clickRay, out hitInfo, Mathf.Infinity))
         {
-            clickRay = cam.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hitInfo;
-
-            if (Physics.Raycast(clickRay, out hitInfo))
-            {
-                Debug.Log(hitInfo.collider);
-
-                //if object has tag "Interactable"
-                if (hitInfo.collider.gameObject.tag == "Interactable")
-                {
-
-                    //Set object to interactableGameObject and mark interactableCheckTest as true
-                    interactableGameObject = hitInfo.collider.gameObject;
-                    interactableCheckTest = true;
-
-                    Debug.Log(interactableGameObject);
-
-
-                }
-                //if object does not have tag "Interactable"
-                if (hitInfo.collider.gameObject.tag != "Interactable")
-                {
-                    //mark interactableCheckTest as false and has attributeType of -1 (no attribute type)
-                    interactableCheckTest = false;
-                    attributeType = -1;
-                }
-
-
-
-
-                else if (Input.GetKeyDown("g"))
-                {
-                    playerAgent.SetDestination(Vector3.zero);
-                }
-            }
+            selectedObject = hitInfo.collider.gameObject;
         }
     }
-
-
-
-    private void interactableAttributesCheck()
-    //if interactableCheckTest is true
-    {
-        if (interactableCheckTest == true)
-        {
-
-
-            //if interactable object clicked contains mineralAttributes
-            mineralAttributes mineralAttributesCheck = interactableGameObject.GetComponent<mineralAttributes>();
-            if (mineralAttributesCheck != null)
-            {
-                //public variable guiMineralAmount = Mineral Amount of interactable object clicked
-                guiMineralAmount = mineralAttributesCheck.MineralAmount;
-                guiTypeMineral = mineralAttributesCheck.TypeMineral;
-                attributeType = 0;
-              
-            }
-
-            buildingAttributes buildingAttributesCheck = interactableGameObject.GetComponent<buildingAttributes>();
-            if (buildingAttributesCheck != null)
-            { attributeType = 1; }
-
-        }
-
-    }
-
 }
 
 
