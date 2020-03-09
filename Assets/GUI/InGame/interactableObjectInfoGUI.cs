@@ -12,15 +12,15 @@ public class interactableObjectInfoGUI : MonoBehaviour
 
     void Start()
     {
-        guiGetGUIComponent();
+        getGUIComponent();
     }
 
     void Update()
     {
-        guiGetAttributeUpdate(); //for some reason this script does not work in onGUI()
+        setSelectedObjectGUI(); 
     }
 
-    private void guiGetGUIComponent()
+    private void getGUIComponent()
     {
         //find the text box component 
         topText = GameObject.Find("TopText").GetComponent<Text>();
@@ -30,16 +30,10 @@ public class interactableObjectInfoGUI : MonoBehaviour
         imageSelect.gameObject.SetActive(false);
     }
 
-    private void guiGetAttributeUpdate()
+    private void setSelectedObjectGUI()
     {
-        //if no interactable object is selected (ground)
-        if (GameObject.Find("Player").GetComponent<playerBehavior>().ObjectType == "none")
-        {
-            topText.text = " ";
-            imageSelect.gameObject.SetActive(false);
-        }
         //if mineral is selected
-        else if (GameObject.Find("Player").GetComponent<playerBehavior>().ObjectType == "mineral")
+        if (GameObject.Find("Player").GetComponent<playerBehavior>().SelectedObject.tag == "Mineral")
         {
             //send mineral attribute values to gui text
             mineralAmount = GameObject.Find("Player").GetComponent<playerBehavior>()
@@ -53,27 +47,36 @@ public class interactableObjectInfoGUI : MonoBehaviour
                     imageSelect.gameObject.SetActive(true);
                     imageSelect.GetComponent<Image>().color = Color.green;
                     break;
-                case "material5(Clone)":
-                    imageSelect.gameObject.SetActive(true);
-                    imageSelect.GetComponent<Image>().color = Color.blue;
-                    break;
                 case "material2(Clone)":
                     imageSelect.gameObject.SetActive(true);
                     imageSelect.GetComponent<Image>().color = new Color(128f / 255f, 0f, 128f / 255f);
-                    break;
-                case "material4(Clone)":
-                    imageSelect.gameObject.SetActive(true);
-                    imageSelect.GetComponent<Image>().color = Color.red;
                     break;
                 case "material3(Clone)":
                     imageSelect.gameObject.SetActive(true);
                     imageSelect.GetComponent<Image>().color = Color.yellow;
                     break;
+                case "material4(Clone)":
+                    imageSelect.gameObject.SetActive(true);
+                    imageSelect.GetComponent<Image>().color = Color.red;
+                    break;
+                case "material5(Clone)":
+                    imageSelect.gameObject.SetActive(true);
+                    imageSelect.GetComponent<Image>().color = Color.blue;
+                    break;
             }
         }
-        else if (GameObject.Find("Player").GetComponent<playerBehavior>().ObjectType == "rock")
+        //if rock is selected
+        else if (GameObject.Find("Player").GetComponent<playerBehavior>().SelectedObject.tag == "Rock")
         {
-            //rock stuff
+            //placeholder code, simply "deselects" an object according to the ui
+            topText.text = " ";
+            imageSelect.gameObject.SetActive(false);
+        }
+        //if no interactable object is selected (ground)
+        else
+        {
+            topText.text = " ";
+            imageSelect.gameObject.SetActive(false);
         }
     }
 }

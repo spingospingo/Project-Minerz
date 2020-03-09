@@ -5,8 +5,7 @@ using UnityEngine.AI;
 
 public class playerBehavior : MonoBehaviour
 {
-    private LayerMask navigable; //mesh that can be clicked on for movement
-    private LayerMask interactable; //rocks, buildings, minerals, etc
+    private LayerMask navigable, interactable;
 
     private NavMeshAgent playerAgent;
     private Ray clickRay;
@@ -19,15 +18,9 @@ public class playerBehavior : MonoBehaviour
         set { }
     }
 
-    private string objectType;
-    public string ObjectType
-    {
-        get { return objectType; }
-        set { }
-    }
-
     void Start()
     {
+        selectedObject = GameObject.Find("Floor"); //instantiate to "no selection"
         cam = Camera.main;
         playerAgent = GetComponent<NavMeshAgent>();
         navigable = LayerMask.GetMask("Floor");
@@ -88,35 +81,11 @@ public class playerBehavior : MonoBehaviour
         clickRay = cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hitInfo;
 
-        //if object is "interactable"
-        if (Physics.Raycast(clickRay, out hitInfo, 150, interactable))
+        //if ray collides with object
+        if (Physics.Raycast(clickRay, out hitInfo, Mathf.Infinity))
         {
-            //Set object to interactableGameObject and get object attributes
             selectedObject = hitInfo.collider.gameObject;
-            getInteractableAttributes();
         }
-        //if object does not have tag "interactable"
-        else
-        {
-            objectType = "none";
-        }
-    }
-
-    private void getInteractableAttributes()
-    {
-        //if interactable object clicked is a rock
-        if (selectedObject.name == "Rock(Clone)" || selectedObject.name == "bigRock(Clone)")
-        {
-            objectType = "rock";
-        }
-
-        //if interactable object clicked is a mineral
-        mineralAttributes mineralAttributesCheck = selectedObject.GetComponent<mineralAttributes>();
-        if (mineralAttributesCheck != null) { objectType = "mineral"; }
-
-        //if interactable object clicked is a building
-        buildingAttributes buildingAttributesCheck = selectedObject.GetComponent<buildingAttributes>();
-        if (buildingAttributesCheck != null) { objectType = "building"; }
     }
 }
 
