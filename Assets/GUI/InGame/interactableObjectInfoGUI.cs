@@ -7,8 +7,8 @@ public class interactableObjectInfoGUI : MonoBehaviour
 {
     private Text topText;
     private GameObject imageSelect;
-    private int playerSelectInfo;
-    private string imageSelectInfo;
+    private int mineralAmount;
+    private string objectName;
 
     void Start()
     {
@@ -33,21 +33,21 @@ public class interactableObjectInfoGUI : MonoBehaviour
     private void guiGetAttributeUpdate()
     {
         //if no interactable object is selected (ground)
-        if (GameObject.Find("Player").GetComponent<playerBehavior>().AttributeType == "none")
+        if (GameObject.Find("Player").GetComponent<playerBehavior>().ObjectType == "none")
         {
             topText.text = " ";
             imageSelect.gameObject.SetActive(false);
         }
         //if mineral is selected
-        else if (GameObject.Find("Player").GetComponent<playerBehavior>().AttributeType == "mineral")
+        else if (GameObject.Find("Player").GetComponent<playerBehavior>().ObjectType == "mineral")
         {
             //send mineral attribute values to gui text
-            playerSelectInfo = GameObject.Find("Player").GetComponent<playerBehavior>().ObjectMineralAmount;
-            topText.text = playerSelectInfo.ToString();
+            mineralAmount = GameObject.Find("Player").GetComponent<playerBehavior>()
+                .SelectedObject.GetComponent<mineralAttributes>().MineralAmount;
+            topText.text = mineralAmount.ToString();
 
-            imageSelectInfo = GameObject.Find("Player").GetComponent<playerBehavior>().ObjectMineralType;
-
-            switch(imageSelectInfo)
+            objectName = GameObject.Find("Player").GetComponent<playerBehavior>().SelectedObject.name;
+            switch(objectName)
             {
                 case "material1(Clone)":
                     imageSelect.gameObject.SetActive(true);
@@ -69,9 +69,11 @@ public class interactableObjectInfoGUI : MonoBehaviour
                     imageSelect.gameObject.SetActive(true);
                     imageSelect.GetComponent<Image>().color = Color.yellow;
                     break;
-                //add case for smallRock
-                //add case for bigRock
             }
+        }
+        else if (GameObject.Find("Player").GetComponent<playerBehavior>().ObjectType == "rock")
+        {
+            //rock stuff
         }
     }
 }

@@ -9,28 +9,20 @@ public class playerBehavior : MonoBehaviour
     private LayerMask interactable; //rocks, buildings, minerals, etc
 
     private NavMeshAgent playerAgent;
-    private GameObject interactableGameObject;
     private Ray clickRay;
     private Camera cam;
 
-    private string attributeType;
-    public string AttributeType
+    private GameObject selectedObject;
+    public GameObject SelectedObject
     {
-        get { return attributeType; }
+        get { return selectedObject; }
         set { }
     }
 
-    private int objectMineralAmount;
-    public int ObjectMineralAmount
+    private string objectType;
+    public string ObjectType
     {
-        get { return objectMineralAmount; }
-        set { }
-    }
-
-    private string objectMineralType;
-    public string ObjectMineralType
-    {
-        get { return objectMineralType; }
+        get { return objectType; }
         set { }
     }
 
@@ -56,6 +48,7 @@ public class playerBehavior : MonoBehaviour
 
     private void movePlayer()
     {
+        //instantiate path variable to check if 
         NavMeshPath path = new NavMeshPath();
 
         //shoots ray from camera towards mouseclick
@@ -67,9 +60,7 @@ public class playerBehavior : MonoBehaviour
         if (Physics.Raycast(clickRay, out hitInfo, 150, interactable))
         {
             //Set object to interactableGameObject and get object attributes
-            interactableGameObject = hitInfo.collider.gameObject;
-            //getInteractableAttributes();
-
+            selectedObject = hitInfo.collider.gameObject;
 
             playerAgent.CalculatePath(hitInfo.point, path);
             //if player can move to the point...
@@ -101,30 +92,31 @@ public class playerBehavior : MonoBehaviour
         if (Physics.Raycast(clickRay, out hitInfo, 150, interactable))
         {
             //Set object to interactableGameObject and get object attributes
-            interactableGameObject = hitInfo.collider.gameObject;
+            selectedObject = hitInfo.collider.gameObject;
             getInteractableAttributes();
         }
         //if object does not have tag "interactable"
         else
         {
-            attributeType = "none";
+            objectType = "none";
         }
     }
 
     private void getInteractableAttributes()
     {
-        //if interactable object clicked contains mineralAttributes
-        mineralAttributes mineralAttributesCheck = interactableGameObject.GetComponent<mineralAttributes>();
-        if (mineralAttributesCheck != null)
+        //if interactable object clicked is a rock
+        if (selectedObject.name == "Rock(Clone)" || selectedObject.name == "bigRock(Clone)")
         {
-            //public variable guiMineralAmount = Mineral Amount of interactable object clicked
-            objectMineralAmount = mineralAttributesCheck.MineralAmount;
-            objectMineralType = mineralAttributesCheck.name;
-            attributeType = "mineral";
+            objectType = "rock";
         }
 
-        buildingAttributes buildingAttributesCheck = interactableGameObject.GetComponent<buildingAttributes>();
-        if (buildingAttributesCheck != null) { attributeType = "building"; }
+        //if interactable object clicked is a mineral
+        mineralAttributes mineralAttributesCheck = selectedObject.GetComponent<mineralAttributes>();
+        if (mineralAttributesCheck != null) { objectType = "mineral"; }
+
+        //if interactable object clicked is a building
+        buildingAttributes buildingAttributesCheck = selectedObject.GetComponent<buildingAttributes>();
+        if (buildingAttributesCheck != null) { objectType = "building"; }
     }
 }
 
