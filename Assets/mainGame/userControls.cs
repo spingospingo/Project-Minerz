@@ -17,7 +17,6 @@ public class userControls : MonoBehaviour
         set { }
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         selectedObject = GameObject.Find("Floor"); //instantiate to "no selection"
@@ -27,7 +26,6 @@ public class userControls : MonoBehaviour
         player = GameObject.Find("Player").GetComponent<playerBehavior>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButtonDown(1)) //right click
@@ -35,7 +33,7 @@ public class userControls : MonoBehaviour
             clickRay = cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitInfo;
 
-            //if ray collides with an interactable object...
+            //if ray collides with ground OR object
             if (Physics.Raycast(clickRay, out hitInfo, Mathf.Infinity, navigable | interactable))
             {
                 player.controlPlayer(hitInfo);

@@ -47,11 +47,11 @@ public class playerBehavior : MonoBehaviour
         Idle,
         Moving,
         Mining,
+        Breaking,
     }
     private State state;
 
     private bool isMining;
-    private bool isChecking;
 
     private GameObject objectToInteractWith;
 
@@ -68,16 +68,31 @@ public class playerBehavior : MonoBehaviour
         switch (state)
         {
             case State.Idle:
-
+                //standing still. useless? unsure
                 break;
             case State.Moving:
-
+                //moving, but not moving to an interactable
                 break;
             case State.Mining:
-                if (!isMining && playerAgent.remainingDistance <= 1.5f
+                //to mine mineral nodes
+                /* isMining checks if the player is currently "busy"
+                 * doing mine() already. if this variable wasn't
+                 * there, then a new mine() coroutine would start
+                 * every frame. */
+                if (!isMining && playerAgent.remainingDistance <= 1.25f
                     && playerAgent.remainingDistance != 0)
                 {
+                    //mine once
                     StartCoroutine(mine(1));
+                }
+                break;
+            case State.Breaking:
+                //to break rocks
+                if (playerAgent.remainingDistance <= 1.25f
+                    && playerAgent.remainingDistance != 0)
+                {
+                    //destroy rock after 0.25 sec
+                    Destroy(objectToInteractWith, 0.25f);
                 }
                 break;
         }
@@ -87,15 +102,23 @@ public class playerBehavior : MonoBehaviour
     {
         NavMeshPath path = new NavMeshPath();
 
-        //if ray collides with an interactable object...
-        if (hitInfo.collider.gameObject.tag == "Mineral"
-            || hitInfo.collider.gameObject.tag == "Rock")
+        if (hitInfo.collider.gameObject.tag == "Mineral")
+        {
+            //assign mineral to target object
+            objectToInteractWith = hitInfo.collider.gameObject;
+
+            //move to target and set mode to "mining"
+            playerAgent.SetDestination(hitInfo.point);
+            state = State.Mining;
+            playerAgent.stoppingDistance = 1.25f;
+        }
+        else if (hitInfo.collider.gameObject.tag == "Rock")
         {
             objectToInteractWith = hitInfo.collider.gameObject;
 
             playerAgent.SetDestination(hitInfo.point);
-            state = State.Mining;
-            playerAgent.stoppingDistance = 1.5f;
+            state = State.Breaking;
+            playerAgent.stoppingDistance = 1.25f;
         }
         //if ray collides with navmesh...
         else
@@ -114,7 +137,9 @@ public class playerBehavior : MonoBehaviour
 
     private IEnumerator mine(int amount)
     {
+        //set isMining, a "busy" flag, as true
         isMining = true;
+        //check what kind of mineral is being mined and fill corresponding inventory
         switch(objectToInteractWith.name)
         {
             case "material1(Clone)":
@@ -133,7 +158,9 @@ public class playerBehavior : MonoBehaviour
                 mat5Inv += objectToInteractWith.GetComponent<mineralAttributes>().mine(amount);
                 break;
         }
+        //timer inbetween gathers. adjust for mining speed
         yield return new WaitForSeconds(1);
+        //player is no longer busy mining
         isMining = false;
     }
 }
