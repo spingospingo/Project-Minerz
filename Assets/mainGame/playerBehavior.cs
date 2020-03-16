@@ -11,60 +11,117 @@ public class playerBehavior : MonoBehaviour
     private Ray clickRay;
     private Camera cam;
 
-    private GameObject selectedObject;
-    public GameObject SelectedObject
+    private int mat1Inv, mat2Inv, mat3Inv, mat4Inv, mat5Inv;
+    public int Mat1Inv
     {
-        get { return selectedObject; }
-        set { }
+        get { return mat1Inv; }
+        set { mat1Inv = value; }
     }
+
+    public int Mat2Inv
+    {
+        get { return mat2Inv; }
+        set { mat2Inv = value; }
+    }
+
+    public int Mat3Inv
+    {
+        get { return mat3Inv; }
+        set { mat3Inv = value; }
+    }
+
+    public int Mat4Inv
+    {
+        get { return mat4Inv; }
+        set { mat4Inv = value; }
+    }
+
+    public int Mat5Inv
+    {
+        get { return mat5Inv; }
+        set { mat5Inv = value; }
+    }
+
+    private enum State
+    {
+        Idle,
+        Moving,
+        Mining,
+        Breaking,
+    }
+    private State state;
+
+    private bool isMining;
+
+    private GameObject objectToInteractWith;
 
     void Start()
     {
-        selectedObject = GameObject.Find("Floor"); //instantiate to "no selection"
-        cam = Camera.main;
         playerAgent = GetComponent<NavMeshAgent>();
         navigable = LayerMask.GetMask("Floor");
         interactable = LayerMask.GetMask("Interactable");
+        state = State.Idle;
     }
 
-    void OnGUI()
+    void Update()
     {
-        if (Input.GetMouseButtonDown(1)) //right click
+        switch (state)
         {
-            movePlayer();
-        }
-        else if (Input.GetMouseButtonDown(0)) //left click
-        {
-            selectObject();
+            case State.Idle:
+                //standing still. useless? unsure
+                break;
+            case State.Moving:
+                //moving, but not moving to an interactable
+                break;
+            case State.Mining:
+                //to mine mineral nodes
+                /* isMining checks if the player is currently "busy"
+                 * doing mine() already. if this variable wasn't
+                 * there, then a new mine() coroutine would start
+                 * every frame. */
+                if (!isMining && playerAgent.remainingDistance <= 1.25f
+                    && playerAgent.remainingDistance != 0)
+                {
+                    //mine once
+                    StartCoroutine(mine(1));
+                }
+                break;
+            case State.Breaking:
+                //to break rocks
+                if (playerAgent.remainingDistance <= 1.25f
+                    && playerAgent.remainingDistance != 0)
+                {
+                    //destroy rock after 0.25 sec
+                    Destroy(objectToInteractWith, 0.25f);
+                }
+                break;
         }
     }
 
-    private void movePlayer()
+    public void controlPlayer(RaycastHit hitInfo)
     {
-        //instantiate path variable to check if 
         NavMeshPath path = new NavMeshPath();
 
-        //shoots ray from camera towards mouseclick
-        clickRay = cam.ScreenPointToRay(Input.mousePosition);
-        //point of collision from camera raycast
-        RaycastHit hitInfo;
-
-        //if ray collides with an interactable object...
-        if (Physics.Raycast(clickRay, out hitInfo, 150, interactable))
+        if (hitInfo.collider.gameObject.tag == "Mineral")
         {
-            //Set object to interactableGameObject and get object attributes
-            selectedObject = hitInfo.collider.gameObject;
+            //assign mineral to target object
+            objectToInteractWith = hitInfo.collider.gameObject;
 
-            playerAgent.CalculatePath(hitInfo.point, path);
-            //if player can move to the point...
-            if (path.status == NavMeshPathStatus.PathComplete)
-            {
-                //...tell player to move to that point
-                playerAgent.SetDestination(hitInfo.point);
-            }
+            //move to target and set mode to "mining"
+            playerAgent.SetDestination(hitInfo.point);
+            state = State.Mining;
+            playerAgent.stoppingDistance = 1.25f;
+        }
+        else if (hitInfo.collider.gameObject.tag == "Rock")
+        {
+            objectToInteractWith = hitInfo.collider.gameObject;
+
+            playerAgent.SetDestination(hitInfo.point);
+            state = State.Breaking;
+            playerAgent.stoppingDistance = 1.25f;
         }
         //if ray collides with navmesh...
-        else if (Physics.Raycast(clickRay, out hitInfo, 150, navigable))
+        else
         {
             playerAgent.CalculatePath(hitInfo.point, path);
             //if player can move to the point...
@@ -72,20 +129,39 @@ public class playerBehavior : MonoBehaviour
             {
                 //...tell player to move to that point
                 playerAgent.SetDestination(hitInfo.point);
+                state = State.Moving;
+                playerAgent.stoppingDistance = 0;
             }
         }
     }
 
-    private void selectObject()
+    private IEnumerator mine(int amount)
     {
-        clickRay = cam.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hitInfo;
-
-        //if ray collides with object
-        if (Physics.Raycast(clickRay, out hitInfo, Mathf.Infinity))
+        //set isMining, a "busy" flag, as true
+        isMining = true;
+        //check what kind of mineral is being mined and fill corresponding inventory
+        switch(objectToInteractWith.name)
         {
-            selectedObject = hitInfo.collider.gameObject;
+            case "material1(Clone)":
+                mat1Inv += objectToInteractWith.GetComponent<mineralAttributes>().mine(amount);
+                break;
+            case "material2(Clone)":
+                mat2Inv += objectToInteractWith.GetComponent<mineralAttributes>().mine(amount);
+                break;
+            case "material3(Clone)":
+                mat3Inv += objectToInteractWith.GetComponent<mineralAttributes>().mine(amount);
+                break;
+            case "material4(Clone)":
+                mat4Inv += objectToInteractWith.GetComponent<mineralAttributes>().mine(amount);
+                break;
+            case "material5(Clone)":
+                mat5Inv += objectToInteractWith.GetComponent<mineralAttributes>().mine(amount);
+                break;
         }
+        //timer inbetween gathers. adjust for mining speed
+        yield return new WaitForSeconds(1);
+        //player is no longer busy mining
+        isMining = false;
     }
 }
 
