@@ -180,14 +180,14 @@ public class shaderValueChanger : MonoBehaviour
 
         
 
-        maxVectorCheck.x = initialVectorPosition.x + 1.4193f;
+        maxVectorCheck.x = initialVectorPosition.x + 1.252f;
 
         if (maxVectorCheck.x >= Plane.transform.position.x)
         {
             Debug.Log(matInv);
 
-            Vector3 vectorPositionChange = new Vector3(((1.4193f*matInv)/maxMat), 0, 0);
-            Vector3 vectorScaleChange = new Vector3(((1.4193f*matInv)/maxMat) * .199962f, 0, 0);
+            Vector3 vectorPositionChange = new Vector3(((1.252f*matInv)/maxMat), 0, 0);
+            Vector3 vectorScaleChange = new Vector3(0, ((1.252f*matInv)/maxMat) * .999905f, 0);
 
             Plane.transform.localPosition = vectorPosition + vectorPositionChange;
             Plane.transform.localScale = vectorScale + vectorScaleChange;
