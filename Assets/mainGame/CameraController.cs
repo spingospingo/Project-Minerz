@@ -36,9 +36,10 @@ public class CameraController : MonoBehaviour
 
     private Vector3 asdf = new Vector3(0, 0, 0);
 
-    private void Start()
+    private void Awake()
     {
         currentPos = gameObject.transform.position;
+        
     }
 
     void Update()

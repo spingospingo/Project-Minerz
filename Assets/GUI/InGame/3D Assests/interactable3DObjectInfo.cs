@@ -14,10 +14,13 @@ public class interactable3DObjectInfo : MonoBehaviour
 
     private bool sameCheck;
     private GameObject sameObject = null;
-    private Vector3 interactableMineralDisplayPos = new Vector3(-12.31f, 7.97f, -10.44f);
+    private Vector3 interactableMineralDisplayPos;
     private Quaternion rotation = Quaternion.identity;
     private GameObject interactableVisual;
-    private GameObject camera;
+
+    private Vector3 currentCameraPos;
+    private Vector3 initialVisualPos;
+    private Vector3 vectorDifference;
 
     private void Start()
     {
@@ -31,11 +34,8 @@ public class interactable3DObjectInfo : MonoBehaviour
         updateInfoTextComponents();
         checkForSameInteractableObject();
         updateInfoVisualComponents();
-        
 
     }
-
-
 
     private void getInfoComponents()
     {
@@ -43,8 +43,13 @@ public class interactable3DObjectInfo : MonoBehaviour
         dispInfoMineralType = GameObject.Find("interactableInfoDispMineralType").GetComponent<TextMesh>();
 
         interactableVisual = GameObject.Find("placeHolderInteratableVisual");
+        interactableMineralDisplayPos = interactableVisual.transform.localPosition;
 
-        camera = GameObject.Find("Camera");
+        currentCameraPos = GameObject.Find("Camera").GetComponent<CameraController>().CurrentPos;
+        initialVisualPos = interactableMineralDisplayPos;
+        vectorDifference = initialVisualPos - currentCameraPos;
+
+
     }
 
 
@@ -144,8 +149,16 @@ public class interactable3DObjectInfo : MonoBehaviour
             //Strange bug instantiates the "Floor" Component on game start.
             //the instatiated Floor is destroyed after failing the interactable check
 
+            interactableVisual.name = "InstantiatedInteractableVisual";
+
+            Vector3 interactableScale = interactableVisual.transform.localScale;
+            interactableScale = new Vector3(interactableScale.x / 2f, interactableScale.y / 2f,interactableScale.z / 2f);
+            interactableVisual.transform.localScale = interactableScale;
+            
             interactableVisual.transform.Rotate(55, 0, 0);
-           
+
+            interactableVisual.GetComponent<Renderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+
 
         }
 
@@ -157,9 +170,10 @@ public class interactable3DObjectInfo : MonoBehaviour
         {
             if (interactableCheck == true)
             {
-                interactableVisual.transform.Rotate(0, 6*Time.deltaTime, 0, Space.Self);
 
-                
+                instnatiatedObjectTransform();
+
+
             }
 
         }
@@ -170,7 +184,16 @@ public class interactable3DObjectInfo : MonoBehaviour
             Destroy(interactableVisual);
         }
 
-        Debug.Log(sameCheck);
+    }
+
+
+    private void instnatiatedObjectTransform()
+    {
+
+        currentCameraPos = GameObject.Find("Camera").GetComponent<CameraController>().CurrentPos;
+        interactableVisual.transform.localPosition = currentCameraPos + vectorDifference;
+        interactableVisual.transform.Rotate(0, 6 * Time.deltaTime, 0, Space.Self);
+
     }
 
 }
