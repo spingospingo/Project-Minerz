@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class mineralDisplay : MonoBehaviour
+public class mineralDisplay3D : MonoBehaviour
 {
-    private Text mat1, mat2, mat3, mat4, mat5;
+    private TextMesh mat1, mat2, mat3, mat4, mat5;
     private playerBehavior player;
     private GameObject mat; 
 
 
-    private void Awake()
+    private void Start()
     {
         getMatValues();
         getMatTextComponent();
@@ -19,6 +19,7 @@ public class mineralDisplay : MonoBehaviour
 
     private void OnGUI()
     {
+        
         convertMatIntToString();
     }
 
@@ -33,11 +34,13 @@ public class mineralDisplay : MonoBehaviour
     {
 
 
-        mat1 = GameObject.Find("Mat1").GetComponent<Text>();
-        mat2 = GameObject.Find("Mat2").GetComponent<Text>();
-        mat3 = GameObject.Find("Mat3").GetComponent<Text>();
-        mat4 = GameObject.Find("Mat4").GetComponent<Text>();
-        mat5 = GameObject.Find("Mat5").GetComponent<Text>();
+        mat1 = GameObject.Find("Mat13D").GetComponent<TextMesh>();
+        mat2 = GameObject.Find("Mat23D").GetComponent<TextMesh>();
+        mat3 = GameObject.Find("Mat33D").GetComponent<TextMesh>();
+        mat4 = GameObject.Find("Mat43D").GetComponent<TextMesh>();
+        mat5 = GameObject.Find("Mat53D").GetComponent<TextMesh>();
+
+        
     }
 
 

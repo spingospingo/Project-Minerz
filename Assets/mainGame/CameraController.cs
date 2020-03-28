@@ -5,6 +5,20 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     private bool camStatus = false;
+
+    public Vector3 CurrentPos
+    {
+        get
+        {
+            return currentPos;
+        }
+
+        set
+        {
+
+        }
+    }
+
     private Vector3 currentPos;
 
     // Variables for panning
@@ -21,6 +35,11 @@ public class CameraController : MonoBehaviour
     private Vector3 offset = new Vector3(0f, 0f, -15f);
 
     private Vector3 asdf = new Vector3(0, 0, 0);
+
+    private void Start()
+    {
+        currentPos = gameObject.transform.position;
+    }
 
     void Update()
     {
