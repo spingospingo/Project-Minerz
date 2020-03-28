@@ -45,8 +45,7 @@ public class dayNightCycleTimer3DSphere : MonoBehaviour
         initialSpherePos = currentSpherePos;
 
         vectorDifference = currentSpherePos - currentCameraPos;
-        Debug.Log("Vector Difference: " + vectorDifference);
-        Debug.Log("Camrea Position: " + currentCameraPos);
+
     }
 
     private void rotateSphere()
