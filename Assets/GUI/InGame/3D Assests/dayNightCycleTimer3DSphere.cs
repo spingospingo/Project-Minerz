@@ -55,6 +55,8 @@ public class dayNightCycleTimer3DSphere : MonoBehaviour
     }
 
     private void updatePositionFromCamera()
+    //moves sphereObject with player's camera 
+    //vectorDifference keeps the sphereObject at the correct position relative to the view of the camera
     {
         currentCameraPos = GameObject.Find("Camera").GetComponent<CameraController>().CurrentPos;
         currentSpherePos = currentCameraPos + vectorDifference;

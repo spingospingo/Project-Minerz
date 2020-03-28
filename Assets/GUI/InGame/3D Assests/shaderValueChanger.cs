@@ -89,7 +89,7 @@ public class shaderValueChanger : MonoBehaviour
     }
 
 
-    private void reloadShaderValues()
+    private void reloadShaderValues() //Shader values dont reset when game stops. So it is neccessary to reset them at every game start.
     {
         materialShader.SetFloat("Vector1_473873AB", 1);
         materialShader.SetFloat("Vector1_B7129893", 4);
